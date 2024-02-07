@@ -6,8 +6,8 @@ from time import sleep
 
 def check_and_install_module(module_name):
     try:
-        __import__(module_name)
-        print(f"{module_name} is already installed.")
+        if module_name in sys.modules:
+            __import__(module_name)
     except ImportError:
         user_approval = input(f"\n{module_name} is not installed. Do you want to install it? (y/n): ")
         if user_approval.lower() == 'y':
@@ -26,7 +26,7 @@ import pandas as pd
 check_and_install_module('pyarrow')
 import pyarrow
 
-sleep(2)
+
 system('cls' if sys.platform == 'win32' else 'clear')
 
 
@@ -59,3 +59,5 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
+    
+    
