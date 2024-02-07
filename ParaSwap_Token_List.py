@@ -1,6 +1,33 @@
+import subprocess
+import sys
+from os import system
+from time import sleep
+
+
+def check_and_install_module(module_name):
+    try:
+        __import__(module_name)
+        print(f"{module_name} is already installed.")
+    except ImportError:
+        user_approval = input(f"\n{module_name} is not installed. Do you want to install it? (y/n): ")
+        if user_approval.lower() == 'y':
+            subprocess.check_call([sys.executable, "-m", "pip", "install", module_name])
+            print(f"{module_name} has been successfully installed.")
+        else:
+            print("Installation aborted by the user.")
+
+
+check_and_install_module('asyncio')
 import asyncio
+check_and_install_module('aiohttp')
 import aiohttp
+check_and_install_module('pandas')
 import pandas as pd
+check_and_install_module('pyarrow')
+import pyarrow
+
+sleep(2)
+system('cls' if sys.platform == 'win32' else 'clear')
 
 
 async def fetch_tokens_list(network_id):
@@ -25,6 +52,7 @@ async def main():
         df = pd.DataFrame(tokens_list, columns=['symbol', 'address'])
         print("Fetched Tokens List From Paraswap:\n")
         print(df)
+        input("\n\nPress Enter to continue...")
     else:
         print("Could not fetch tokens list.")
 
